@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>Train Scheduler</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+
+<body>
+    <h1>Add a Train</h1>
+    <div id="recentTrain"></div>
+    <div id="addTrain">
+        <!-- Add a Train form -->
+        <form role="form">
+            <div class="form-group">
+                <label for="name-input">Train Name:</label>
+                <input class="form-control" id="name-input" type="text" placeholder="Reading Railroad">
+            </div>
+            <div class="form-group">
+                <label for="destination-input">Destination:</label>
+                <input class="form-control" id="destination-input" type="text" placeholder="Reading, PA">
+            </div>
+            <div class="form-group">
+                <label for="time-input">First Train Time (HH:mm - military time):</label>
+                <input class="form-control" id="time-input" type="number" placeholder="16:20">
+            </div>
+            <div class="form-group">
+                <label for="frequency-input">Frequency (minutes):</label>
+                <input class="form-control" id="frequency-input" type="text" placeholder="30">
+                </textarea>
+            </div>
+            <button class="btn btn-default" id="add-train" type="submit">Add Train</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
+</body>
+
+</html>
