@@ -21,12 +21,44 @@ var time;
 
 var frequency;
 
+var trainTotal;
+
+var d;
+
+var hour;
+
+var minutes;
+
+var currentTime;
+
+var intervalId;
+
+function changeTime() {
+    // Establish one second interval for timer.
+
+    intervalId = setInterval(clock, 1000);
+}
+
+function clock() {
+    d = new Date();
+
+    hour = d.getHours();
+
+    minutes = d.getMinutes();
+
+    currentTime = hour + ":" + minutes;
+    $("#clockFace").html(currentTime);
+}
+
+
 // Capture Button Click
 $("#add-train").on("click", function() {
     // Don't refresh the page!
     event.preventDefault();
 
-    trainName = $("#name-input").val().trim();
+    trainTotal = 0;
+
+    train = $("#name-input").val().trim();
 
     destination = $("#destination-input").val().trim();
 
@@ -34,31 +66,96 @@ $("#add-train").on("click", function() {
 
     frequency = $("#frequency-input").val().trim();
 
+    trainTotal++;
+
     database.ref().set({
-        name: trainName,
-        dest: destination,
-        time: time,
-        freq: frequency
+        count: trainTotal,
+        name: train + trainTotal,
+        dest: destination + trainTotal,
+        time: time + trainTotal,
+        freq: frequency + trainTotal
     });
 
+
+
 });
+
+
 
 
 // Firebase watcher + initial loader HINT: .on("value")
 database.ref().on("value", function(snapshot) {
 
-    // Log everything that's coming out of snapshot
-    console.log(snapshot.val());
-    console.log(snapshot.val().name);
-    console.log(snapshot.val().dest);
-    console.log(snapshot.val().time);
-    console.log(snapshot.val().freq);
+        trainTotal = (snapshot.val().count);
 
-    // Change the HTML to reflect
-    $("#recentTrain").html(snapshot.val().name + " | " + snapshot.val().dest + " | " + snapshot.val().time + " | " + snapshot.val().freq);
-   
+        console.log(trainTotal);
 
-    // Handle the errors
-}, function(errorObject) {
-    console.log("Errors handled: " + errorObject.code);
-});
+        if (trainTotal !== 0) {
+
+            // Log everything that's coming out of snapshot
+            console.log(snapshot.val());
+            console.log(snapshot.val().name);
+            console.log(snapshot.val().dest);
+            console.log(snapshot.val().time);
+            console.log(snapshot.val().freq);
+
+            $("#recentTrain").html(snapshot.val().name + " | " + snapshot.val().dest + " | " + snapshot.val().time + " | " + snapshot.val().freq);
+            // return (trainTotal);
+
+            // function putOnPage() {
+            // Change the HTML to reflect
+            // trainTotal = trainTotal;
+
+            var trainLine = $("<tr id=\"train" + trainTotal + "\">");
+
+            var trainName = $("<td id=\"tName" + trainTotal + "\">");
+
+            var trainDest = $("<td id=\"tDest" + trainTotal + "\">");
+
+            var trainFreq = $("<td id=\"tFreq" + trainTotal + "\">");
+
+            var trainNxtArrival = $("<td id=\"tNxtArr" + trainTotal + "\">");
+
+            var trainMinutes = $("<td id=\"tMins" + trainTotal + "\">");
+
+            trainLine.append(trainName);
+
+            trainLine.append(trainDest);
+
+            trainLine.append(trainFreq);
+
+            trainLine.append(trainNxtArrival);
+
+            trainLine.append(trainMinutes);
+
+
+
+            $("#deezTrains").append(trainLine);
+
+            $("#tName" + trainTotal).html(snapshot.val().name);
+
+            $("#tDest" + trainTotal).html(snapshot.val().dest);
+
+            $("#tFreq" + trainTotal).html(snapshot.val().freq);
+
+            $("#tNxtArr" + trainTotal).html(snapshot.val().time);
+
+            $("#tMins" + trainTotal).html(snapshot.val().time);
+
+            // };
+
+        }
+        // Handle the errors
+    },
+    function(errorObject) {
+        console.log("Errors handled: " + errorObject.code);
+    });
+
+
+
+// if (trainTotal !== 0) {
+
+clock();
+changeTime();
+
+// }
