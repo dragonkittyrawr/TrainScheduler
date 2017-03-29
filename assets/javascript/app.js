@@ -35,7 +35,7 @@ var currentTime;
 
 var intervalId;
 
-var startingTotal = 1;
+// var startingTotal = 1;
 
 function changeTime() {
     // Establish one second interval for timer.
@@ -49,26 +49,16 @@ function clock() {
 
     minutes = moment().minutes();
 
+    if (minutes < 10) {
+        minutes = "0" + moment().minutes();
+    } else {
+        minutes = moment().minutes();
+    }
+
     currentTime = hour + ":" + minutes;
     $("#clockFace").html(currentTime);
-
+    
 }
-
-//     d = new Date();
-
-//     hour = d.getHours();
-
-//     minutes = d.getMinutes();
-
-//     if (minutes < 10) {
-//         minutes = "0" + d.getMinutes();
-//     } else {
-//         minutes = d.getMinutes();
-//     }
-
-//     currentTime = hour + ":" + minutes;
-//     $("#clockFace").html(currentTime);
-// }
 
 
 // Capture Button Click
@@ -76,13 +66,15 @@ $("#add-train").on("click", function() {
     // Don't refresh the page!
     event.preventDefault();
 
-    // trainTotal = 0;
+    trainTotal++;
 
     train = $("#name-input").val().trim();
 
     destination = $("#destination-input").val().trim();
 
-    time = $("#time-input").val().trim();
+    startTime = $("#start-time-input").val().trim();
+
+    endTime = $("#end-time-input").val().trim();
 
     frequency = $("#frequency-input").val().trim();
 
@@ -97,11 +89,12 @@ $("#add-train").on("click", function() {
         count: trainTotal,
         name: train,
         dest: destination,
-        time: time,
+        start: startTime,
+        end: endTime,
         freq: frequency
     });
 
-    trainTotal++;
+
 
 });
 
