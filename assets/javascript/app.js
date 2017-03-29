@@ -23,7 +23,7 @@ var time;
 
 var frequency;
 
-// var trainTotal;
+var trainTotal = 0;
 
 var d;
 
@@ -44,23 +44,31 @@ function changeTime() {
 }
 
 function clock() {
-    d = new Date();
 
-    hour = d.getHours();
+    hour = moment().hours();
 
-    minutes = d.getMinutes();
-
-    if (minutes < 10) {
-        minutes = "0" + d.getMinutes();
-    }
-
-    else {
-        minutes = d.getMinutes();
-    }
+    minutes = moment().minutes();
 
     currentTime = hour + ":" + minutes;
     $("#clockFace").html(currentTime);
+
 }
+
+//     d = new Date();
+
+//     hour = d.getHours();
+
+//     minutes = d.getMinutes();
+
+//     if (minutes < 10) {
+//         minutes = "0" + d.getMinutes();
+//     } else {
+//         minutes = d.getMinutes();
+//     }
+
+//     currentTime = hour + ":" + minutes;
+//     $("#clockFace").html(currentTime);
+// }
 
 
 // Capture Button Click
@@ -86,17 +94,14 @@ $("#add-train").on("click", function() {
     // var freq = "freq" + trainTotal;
 
     database.ref().push({
+        count: trainTotal,
         name: train,
         dest: destination,
         time: time,
         freq: frequency
     });
 
-database.ref().on("child_added", function(snapshot) {
-
-    $("#recentTrain").html("<h2>Most Recently Added Train: " + snapshot.val().name + " | " + snapshot.val().dest + " | " + snapshot.val().time + " | " + snapshot.val().freq + "</h2>");
-
-})
+    trainTotal++;
 
 });
 
@@ -106,73 +111,79 @@ database.ref().on("child_added", function(snapshot) {
 // Firebase watcher + initial loader HINT: .on("value")
 database.ref().on("child_added", function(snapshot) {
 
+        var newTrain = snapshot.val();
+
+        console.log(newTrain);
+
+        $("#recentTrain").html("<h2>Most Recently Added Train: " + newTrain.name + " | " + newTrain.dest + " | " + newTrain.time + " | " + newTrain.freq + "</h2>");
+
         // startingTotal = (snapshot.val().count);
 
         // console.log(startingTotal);
 
         // if (startingTotal !== 0) {
 
-        //     trainTotal = 1;
+        // trainTotal = 1;
 
-            // Log everything that's coming out of snapshot
-            // console.log(snapshot.val());
-            // console.log(snapshot.val()["name" + trainTotal]);
-            // console.log(snapshot.val()["dest" + trainTotal]);
-            // console.log(snapshot.val()["time" + trainTotal]);
-            // console.log(snapshot.val()["freq" + trainTotal]);
-
-
-            // return (trainTotal);
-
-            // function putOnPage() {
-            // Change the HTML to reflect
-
-            // for (var i = 0; i < startingTotal; i++) {
-
-                var trainLine = $("<tr id=\"train" + trainTotal + "\">");
-
-                var trainName = $("<td id=\"tName" + trainTotal + "\">");
-
-                var trainDest = $("<td id=\"tDest" + trainTotal + "\">");
-
-                var trainFreq = $("<td id=\"tFreq" + trainTotal + "\">");
-
-                var trainNxtArrival = $("<td id=\"tNxtArr" + trainTotal + "\">");
-
-                var trainMinutes = $("<td id=\"tMins" + trainTotal + "\">");
-
-                trainLine.append(trainName);
-
-                trainLine.append(trainDest);
-
-                trainLine.append(trainFreq);
-
-                trainLine.append(trainNxtArrival);
-
-                trainLine.append(trainMinutes);
+        // Log everything that's coming out of snapshot
+        // console.log(snapshot.val());
+        // console.log(snapshot.val()["name" + trainTotal]);
+        // console.log(snapshot.val()["dest" + trainTotal]);
+        // console.log(snapshot.val()["time" + trainTotal]);
+        // console.log(snapshot.val()["freq" + trainTotal]);
 
 
+        // return (trainTotal);
 
-                $("#deezTrains").append(trainLine);
+        // function putOnPage() {
+        // Change the HTML to reflect
 
-                $("#tName" + trainTotal).html(snapshot.val().name);
+        // for (var i = 0; i < startingTotal; i++) {
 
-                $("#tDest" + trainTotal).html(snapshot.val().dest);
+        var trainLine = $("<tr id=\"train" + newTrain.count + "\">");
 
-                $("#tFreq" + trainTotal).html(snapshot.val().freq);
+        var trainName = $("<td id=\"tName" + newTrain.count + "\">");
 
-                $("#tNxtArr" + trainTotal).html(snapshot.val().time);
+        var trainDest = $("<td id=\"tDest" + newTrain.count + "\">");
 
-                $("#tMins" + trainTotal).html(snapshot.val().time);
+        var trainFreq = $("<td id=\"tFreq" + newTrain.count + "\">");
 
-                trainTotal++;
+        var trainNxtArrival = $("<td id=\"tNxtArr" + newTrain.count + "\">");
 
-            // };
+        var trainMinutes = $("<td id=\"tMins" + newTrain.count + "\">");
+
+        trainLine.append(trainName);
+
+        trainLine.append(trainDest);
+
+        trainLine.append(trainFreq);
+
+        trainLine.append(trainNxtArrival);
+
+        trainLine.append(trainMinutes);
 
 
-        },
-        // Handle the errors
-    
+
+        $("#deezTrains").append(trainLine);
+
+        $("#tName" + newTrain.count).html(newTrain.name);
+
+        $("#tDest" + newTrain.count).html(newTrain.dest);
+
+        $("#tFreq" + newTrain.count).html(newTrain.freq);
+
+        $("#tNxtArr" + newTrain.count).html(newTrain.time);
+
+        $("#tMins" + newTrain.count).html(newTrain.time);
+
+        // trainTotal++;
+
+        // };
+
+
+    },
+    // Handle the errors
+
     function(errorObject) {
         console.log("Errors handled: " + errorObject.code);
     });
