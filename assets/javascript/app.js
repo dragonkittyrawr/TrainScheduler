@@ -13,7 +13,9 @@ var database = firebase.database();
 
 // Initial Values
 
-var trainName;
+var trainTotal;
+
+var train;
 
 var destination;
 
@@ -56,7 +58,7 @@ $("#add-train").on("click", function() {
     // Don't refresh the page!
     event.preventDefault();
 
-    trainTotal = 0;
+    // trainTotal = 0;
 
     train = $("#name-input").val().trim();
 
@@ -68,15 +70,18 @@ $("#add-train").on("click", function() {
 
     trainTotal++;
 
+    // var name = "name" + trainTotal;
+    // var dest = "dest" + trainTotal;
+    // var time = "time" + trainTotal;
+    // var freq = "freq" + trainTotal;
+
     database.ref().set({
         count: trainTotal,
-        name: train + trainTotal,
-        dest: destination + trainTotal,
-        time: time + trainTotal,
-        freq: frequency + trainTotal
+        ["name" + trainTotal]: train,
+        ["dest" + trainTotal]: destination,
+        ["time" + trainTotal]: time,
+        ["freq" + trainTotal]: frequency
     });
-
-
 
 });
 
@@ -94,17 +99,19 @@ database.ref().on("value", function(snapshot) {
 
             // Log everything that's coming out of snapshot
             console.log(snapshot.val());
-            console.log(snapshot.val().name);
-            console.log(snapshot.val().dest);
-            console.log(snapshot.val().time);
-            console.log(snapshot.val().freq);
+            console.log(snapshot.val()["name" + trainTotal]);
+            console.log(snapshot.val()["dest" + trainTotal]);
+            console.log(snapshot.val()["time" + trainTotal]);
+            console.log(snapshot.val()["freq" + trainTotal]);
 
-            $("#recentTrain").html(snapshot.val().name + " | " + snapshot.val().dest + " | " + snapshot.val().time + " | " + snapshot.val().freq);
+            $("#recentTrain").html("<h2>Most Recently Added Train: " + snapshot.val()["name" + trainTotal] + " | " + snapshot.val()["dest" + trainTotal] + " | " + snapshot.val()["time" + trainTotal] + " | " + snapshot.val()["freq" + trainTotal] + "</h2>");
             // return (trainTotal);
 
             // function putOnPage() {
             // Change the HTML to reflect
             // trainTotal = trainTotal;
+
+            for (var i = 0; i < trainTotal; i++) {
 
             var trainLine = $("<tr id=\"train" + trainTotal + "\">");
 
@@ -132,17 +139,17 @@ database.ref().on("value", function(snapshot) {
 
             $("#deezTrains").append(trainLine);
 
-            $("#tName" + trainTotal).html(snapshot.val().name);
+            $("#tName" + trainTotal).html(snapshot.val()["name" + trainTotal]);
 
-            $("#tDest" + trainTotal).html(snapshot.val().dest);
+            $("#tDest" + trainTotal).html(snapshot.val()["dest" + trainTotal]);
 
-            $("#tFreq" + trainTotal).html(snapshot.val().freq);
+            $("#tFreq" + trainTotal).html(snapshot.val()["freq" + trainTotal]);
 
-            $("#tNxtArr" + trainTotal).html(snapshot.val().time);
+            $("#tNxtArr" + trainTotal).html(snapshot.val()["time" + trainTotal]);
 
-            $("#tMins" + trainTotal).html(snapshot.val().time);
+            $("#tMins" + trainTotal).html(snapshot.val()["time" + trainTotal]);
 
-            // };
+            };
 
         }
         // Handle the errors
