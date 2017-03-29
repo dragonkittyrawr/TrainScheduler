@@ -83,6 +83,8 @@ $("#add-train").on("click", function() {
         ["freq" + trainTotal]: frequency
     });
 
+    $("#recentTrain").html("<h2>Most Recently Added Train: " + snapshot.val()["name" + trainTotal] + " | " + snapshot.val()["dest" + trainTotal] + " | " + snapshot.val()["time" + trainTotal] + " | " + snapshot.val()["freq" + trainTotal] + "</h2>");
+
 });
 
 
@@ -91,63 +93,66 @@ $("#add-train").on("click", function() {
 // Firebase watcher + initial loader HINT: .on("value")
 database.ref().on("value", function(snapshot) {
 
-        trainTotal = (snapshot.val().count);
+        startingTotal = (snapshot.val().count);
 
-        console.log(trainTotal);
+        console.log(startingTotal);
 
-        if (trainTotal !== 0) {
+        if (startingTotal !== 0) {
+
+            trainTotal = 1;
 
             // Log everything that's coming out of snapshot
-            console.log(snapshot.val());
-            console.log(snapshot.val()["name" + trainTotal]);
-            console.log(snapshot.val()["dest" + trainTotal]);
-            console.log(snapshot.val()["time" + trainTotal]);
-            console.log(snapshot.val()["freq" + trainTotal]);
+            // console.log(snapshot.val());
+            // console.log(snapshot.val()["name" + trainTotal]);
+            // console.log(snapshot.val()["dest" + trainTotal]);
+            // console.log(snapshot.val()["time" + trainTotal]);
+            // console.log(snapshot.val()["freq" + trainTotal]);
 
-            $("#recentTrain").html("<h2>Most Recently Added Train: " + snapshot.val()["name" + trainTotal] + " | " + snapshot.val()["dest" + trainTotal] + " | " + snapshot.val()["time" + trainTotal] + " | " + snapshot.val()["freq" + trainTotal] + "</h2>");
+
             // return (trainTotal);
 
             // function putOnPage() {
             // Change the HTML to reflect
-            // trainTotal = trainTotal;
 
-            for (var i = 0; i < trainTotal; i++) {
+            for (var i = 0; i < startingTotal; i++) {
 
-            var trainLine = $("<tr id=\"train" + trainTotal + "\">");
+                var trainLine = $("<tr id=\"train" + trainTotal + "\">");
 
-            var trainName = $("<td id=\"tName" + trainTotal + "\">");
+                var trainName = $("<td id=\"tName" + trainTotal + "\">");
 
-            var trainDest = $("<td id=\"tDest" + trainTotal + "\">");
+                var trainDest = $("<td id=\"tDest" + trainTotal + "\">");
 
-            var trainFreq = $("<td id=\"tFreq" + trainTotal + "\">");
+                var trainFreq = $("<td id=\"tFreq" + trainTotal + "\">");
 
-            var trainNxtArrival = $("<td id=\"tNxtArr" + trainTotal + "\">");
+                var trainNxtArrival = $("<td id=\"tNxtArr" + trainTotal + "\">");
 
-            var trainMinutes = $("<td id=\"tMins" + trainTotal + "\">");
+                var trainMinutes = $("<td id=\"tMins" + trainTotal + "\">");
 
-            trainLine.append(trainName);
+                trainLine.append(trainName);
 
-            trainLine.append(trainDest);
+                trainLine.append(trainDest);
 
-            trainLine.append(trainFreq);
+                trainLine.append(trainFreq);
 
-            trainLine.append(trainNxtArrival);
+                trainLine.append(trainNxtArrival);
 
-            trainLine.append(trainMinutes);
-
+                trainLine.append(trainMinutes);
 
 
-            $("#deezTrains").append(trainLine);
 
-            $("#tName" + trainTotal).html(snapshot.val()["name" + trainTotal]);
+                $("#deezTrains").append(trainLine);
 
-            $("#tDest" + trainTotal).html(snapshot.val()["dest" + trainTotal]);
+                $("#tName" + trainTotal).html(snapshot.val()["name" + trainTotal]);
 
-            $("#tFreq" + trainTotal).html(snapshot.val()["freq" + trainTotal]);
+                $("#tDest" + trainTotal).html(snapshot.val()["dest" + trainTotal]);
 
-            $("#tNxtArr" + trainTotal).html(snapshot.val()["time" + trainTotal]);
+                $("#tFreq" + trainTotal).html(snapshot.val()["freq" + trainTotal]);
 
-            $("#tMins" + trainTotal).html(snapshot.val()["time" + trainTotal]);
+                $("#tNxtArr" + trainTotal).html(snapshot.val()["time" + trainTotal]);
+
+                $("#tMins" + trainTotal).html(snapshot.val()["time" + trainTotal]);
+
+                trainTotal++;
 
             };
 
