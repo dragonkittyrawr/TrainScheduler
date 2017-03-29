@@ -48,6 +48,14 @@ function clock() {
 
     minutes = d.getMinutes();
 
+    if (minutes < 10) {
+        minutes = "0" + d.getMinutes();
+    }
+
+    else {
+        minutes = d.getMinutes();
+    }
+
     currentTime = hour + ":" + minutes;
     $("#clockFace").html(currentTime);
 }

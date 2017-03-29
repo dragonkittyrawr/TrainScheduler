@@ -1,0 +1,73 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-size: 14px;
+    font-family: 'Raleway', sans-serif;
+    text-align: center;
+}
+
+h1 {
+    font-size: 200%;
+    font-weight: 700;
+    padding: 1%;
+}
+
+h2 {
+    font-size: 175%;
+    font-weight: 600;
+    padding: 1%;
+}
+
+thead {
+    font-size: 110%;
+    font-weight: 500;
+    text-align: center;
+    padding: 1%;
+}
+
+tr {
+    padding: 1%;
+}
+
+form {
+    text-align: left;
+    margin: 10px 5%;
+}
+
+small {
+    font-size: 80%;
+}
+
+#deezTrains {
+    border: solid 1px #000000;
+    padding: 1%;
+    margin: 10px auto;
+    width: 90%;
+}
+
+#clockFace {
+    font-size: 200%;
+    font-weight: 700;
+    border-top: solid 1px #000000;
+    border-bottom: solid 1px #000000;
+    padding: 1%;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.btn {
+    margin: 1% 0;
+}
+
+.form-group {
+    padding: 1%;
+    margin: 1% 0;
+    font-size: 150%;
+}
+
+.form-control {
+	font-size: 90%;
+}
