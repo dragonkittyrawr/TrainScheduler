@@ -87,14 +87,34 @@ function schedBuild(start, end, freq) {
 
     freq = parseInt(newTrain.freq);
 
-
     trainGo = Math.floor((end - start) / freq);
 
     schedule["run" + 0] = start;
 
     for (var r = 1; r < trainGo; r++) {
 
-        schedule["run" + r] = start + freq * r;
+        ////////////////////
+
+        var mathmatical = (start + freq * r) % 100;
+
+        var soMath = (start + freq * r) % 1000;
+
+        var soMuchMath = (start + freq * r) % 10000;
+
+        // FOR TESTING ONLY
+        console.log(mathmatical);
+        console.log(soMath);
+        console.log(soMuchMath);
+
+        ////////////////////
+
+        if (mathmatical < 60) {
+            schedule["run" + r] = start + freq * r;
+        } else if (mathmatical >= 60 && soMath === soMuchMath) {
+        	schedule["run" + r] = soMath - 60;
+        } else if (mathmatical >= 60 && soMath < soMuchMath) {
+        	schedule["run" + r] = soMuchMath - 60;
+        } else {"Um hold on."}
 
     }
 
