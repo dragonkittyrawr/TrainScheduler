@@ -31,7 +31,7 @@ var frequency;
 
 var mintutesTil;
 
-var trainTotal = 0;
+
 
 var hour;
 
@@ -116,6 +116,8 @@ function schedBuild(start, end, freq) {
 $("#add-train").on("click", function(event) {
     // Prevent page refresh.
     event.preventDefault();
+
+    trainTotal = startingTotal;
 
     // Un nouveau train a été ajouté!
     trainTotal++;
