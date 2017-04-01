@@ -86,3 +86,7 @@ p {
 .form-control {
 	font-size: 90%;
 }
+
+.clickName:hover {
+	text-decoration: underline;
+}

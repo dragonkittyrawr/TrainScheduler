@@ -170,7 +170,7 @@ database.ref("/trains").on("child_added", function(snapshot) {
 
 
         // Display most recently added train to "Add a Train" page.
-        $("#recentTrain").html("<h2>Most Recently Added Train: " + newTrain.name + " | " + newTrain.dest + " | " + newTrain.start + " | " + newTrain.end + " | " + newTrain.freq + "</h2>");
+        $("#recentTrain").html("<h2>Most Recently Added Train: " + newTrain.name + " | Destination: " + newTrain.dest + " | First Run: " + newTrain.start + " | Last Run: " + newTrain.end + " | Frequency: " + newTrain.freq + "</h2>");
 
 
         // Create table to display train schedule.
@@ -222,9 +222,9 @@ database.ref("/trains").on("child_added", function(snapshot) {
         console.log(nowNow);
 
         if (nowNow <= schedule.run0 || nowNow >= schedule["run" + goTrain]) {
-            console.log("No trains now.");
+            displaySomething = "No trains now.";
         } else if (nowNow >= schedule.run0 && nowNow <= schedule["run" + goTrain]) {
-            console.log("Next train " + wait);
+            displaySomething = "Next train " + wait;
         }
 
         // Append row to deezTrains div.
@@ -239,11 +239,15 @@ database.ref("/trains").on("child_added", function(snapshot) {
 
         $("#tNxtArr" + newTrain.count).html("tbd");
 
-        $("#tMins" + newTrain.count).html(dispMins);
+        $("#tMins" + newTrain.count).html(displaySomething);
 
 
-
-
+        // Clear form.
+        $("#name-input").val("");
+        $("#destination-input").val("");
+        $("#start-time-input").val("");
+        $("#end-time-input").val("");
+        $("#frequency-input").val("");
     },
     // There may be errors, handle them.
 
