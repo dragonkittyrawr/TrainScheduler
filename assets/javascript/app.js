@@ -31,8 +31,6 @@ var frequency;
 
 var mintutesTil;
 
-
-
 var hour;
 
 var minutes;
@@ -102,10 +100,13 @@ function schedBuild(start, end, freq) {
 
     goTrain = trainGo - 1;
 
+    // FOR TESTING ONLY
     console.log(schedule);
 
+    // FOR TESTING ONLY
     console.log(trainGo);
 
+    // FOR TESTING ONLY
     console.log(goTrain);
 
     return schedule;
@@ -157,6 +158,7 @@ $("#add-train").on("click", function(event) {
 // Displaying seperate total count to console.
 counts.on("value", function(snap) {
     startingTotal = (snap.val().total);
+    // FOR TESTING ONLY
     console.log(startingTotal);
 })
 
@@ -205,27 +207,36 @@ database.ref("/trains").on("child_added", function(snapshot) {
 
         schedBuild();
 
-        var wait = moment(newTrain.end, "HHmm").endOf().fromNow();
+        var wait = moment(newTrain.end, "HHmm").startOf().fromNow();
 
+        // FOR TESTING ONLY
         console.log(wait);
 
         var dispMins = parseInt(wait) * 60;
 
+        // FOR TESTING ONLY
         console.log(dispMins);
 
+        // FOR TESTING ONLY
         console.log(schedule.run0);
 
         var now = moment().format("HHmm");
 
         nowNow = parseInt(now);
 
+        // FOR TESTING ONLY
         console.log(nowNow);
 
-        if (nowNow <= schedule.run0 || nowNow >= schedule["run" + goTrain]) {
-            displaySomething = "No trains now.";
-        } else if (nowNow >= schedule.run0 && nowNow <= schedule["run" + goTrain]) {
-            displaySomething = "Next train " + wait;
-        }
+        var nextArrival = newTrain.start;
+
+        var lastArrival = newTrain.end;
+
+        while (moment(nextArrival, "HHmm").isBefore(moment(), "HHmm") && moment(lastArrival, "HHmm").isAfter(moment(), "HHmm")) {
+            nextArrival = moment(nextArrival, "HHmm").add(newTrain.freq, "minutes").format("HHmm");
+        };
+        var minutesAway = moment(moment(nextArrival, "HHmm").diff(moment(), "HHmm")).format("mm");
+        // FOR TESTING ONLY
+        console.log(minutesAway);
 
         // Append row to deezTrains div.
         $("#deezTrains").append(trainLine);
@@ -237,10 +248,15 @@ database.ref("/trains").on("child_added", function(snapshot) {
 
         $("#tFreq" + newTrain.count).html(newTrain.freq);
 
-        $("#tNxtArr" + newTrain.count).html("tbd");
+        $("#tNxtArr" + newTrain.count).html(nextArrival);
 
-        $("#tMins" + newTrain.count).html(displaySomething);
 
+
+        if (nowNow <= schedule.run0 || nowNow >= schedule["run" + goTrain]) {
+            $("#tMins" + newTrain.count).html("Last run " + wait);
+        } else if (nowNow >= schedule.run0 && nowNow <= schedule["run" + goTrain]) {
+            $("#tMins" + newTrain.count).html(minutesAway + " minutes");
+        }
 
         // Clear form.
         $("#name-input").val("");
@@ -249,15 +265,17 @@ database.ref("/trains").on("child_added", function(snapshot) {
         $("#end-time-input").val("");
         $("#frequency-input").val("");
     },
-    // There may be errors, handle them.
 
+    // There may be errors, handle them.
     function(errorObject) {
+        // FOR TESTING ONLY
         console.log("Errors handled: " + errorObject.code);
     });
 
 $(document).on("click", ".clickName", function() {
     var opened = window.open("");
     opened.document.write("<html><head><title>" + $(this).text() + "</title><meta charset=\"utf-8\"><link rel=\"stylesheet\" type=\"text/css\" href=\"assets/css/reset.css\"><link rel=\"stylesheet\" type=\"text/css\" href=\"assets/css/style.css\"><link href=\"https://fonts.googleapis.com/css?family=Raleway\" rel=\"stylesheet\">" + "</head><body><h1>Full Schedule for " + $(this).text() + "</h1><p>" + JSON.stringify(schedule, null, 4) + "</p></body></html>");
+    // FOR TESTING ONLY
     console.log($(this));
 })
 
