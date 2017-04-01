@@ -6,24 +6,32 @@ body {
 body {
     font-size: 14px;
     font-family: 'Raleway', sans-serif;
-    text-align: center;
+    padding: 1%;
 }
 
 h1 {
     font-size: 200%;
     font-weight: 700;
     padding: 1%;
+    text-align: center;
 }
 
 h2 {
     font-size: 175%;
     font-weight: 600;
     padding: 1%;
+    text-align: center;
 }
 
 thead {
     font-size: 110%;
     font-weight: 500;
+    text-align: center;
+    padding: 1%;
+    text-decoration: underline;
+}
+
+tbody {
     text-align: center;
     padding: 1%;
 }
@@ -33,7 +41,6 @@ tr {
 }
 
 form {
-    text-align: left;
     margin: 10px 5%;
 }
 
@@ -41,8 +48,15 @@ small {
     font-size: 80%;
 }
 
+p {
+	padding: 1%;
+	margin-top: 10px;
+	margin-left: 5%;
+}
+
 #deezTrains {
-    border: solid 1px #000000;
+    border-top: solid 1px #000000;
+    border-bottom: solid 1px #000000;
     padding: 1%;
     margin: 10px auto;
     width: 90%;
@@ -56,6 +70,7 @@ small {
     padding: 1%;
     width: 90%;
     margin: 0 auto;
+    text-align: center;
 }
 
 .btn {
