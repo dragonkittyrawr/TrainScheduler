@@ -111,10 +111,10 @@ function schedBuild(start, end, freq) {
         if (mathmatical < 60) {
             schedule["run" + r] = start + freq * r;
         } else if (mathmatical >= 60 && soMath === soMuchMath) {
-        	schedule["run" + r] = soMath - 60;
+            schedule["run" + r] = soMath - 60;
         } else if (mathmatical >= 60 && soMath < soMuchMath) {
-        	schedule["run" + r] = soMuchMath - 60;
-        } else {"Um hold on."}
+            schedule["run" + r] = soMuchMath - 60;
+        } else { "Um hold on." }
 
     }
 
@@ -138,7 +138,11 @@ $("#add-train").on("click", function(event) {
     // Prevent page refresh.
     event.preventDefault();
 
-    trainTotal = startingTotal;
+    if (startingTotal >= 1) {
+        trainTotal = startingTotal;
+    } else {
+        trainTotal = 0;
+    }
 
     // Un nouveau train a été ajouté!
     trainTotal++;
@@ -177,9 +181,18 @@ $("#add-train").on("click", function(event) {
 
 // Displaying seperate total count to console.
 counts.on("value", function(snap) {
-    startingTotal = (snap.val().total);
+
+    if (snap.val().total) {
+
+        startingTotal = (snap.val().total);
+
+    } else {
+        startingTotal = 0;
+    }
     // FOR TESTING ONLY
     console.log(startingTotal);
+
+
 })
 
 // Pull train data.
